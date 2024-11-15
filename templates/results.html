@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Results</title>
+</head>
+<body>
+    <h1>Results</h1>
+
+    <h2>System Security Check</h2>
+    <ul>
+        {% for key, value in security.items() %}
+            <li><strong>{{ key }}:</strong> {{ value }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>Internet Speed Test</h2>
+    <ul>
+        {% for key, value in speed.items() %}
+            <li><strong>{{ key }}:</strong> {{ value }}</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{{ url_for('index') }}">Run Again</a>
+</body>
+</html>
+

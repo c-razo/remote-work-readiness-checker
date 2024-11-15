@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remote Work Readiness Checker</title>
+</head>
+<body>
+    <h1>Remote Work Readiness Checker</h1>
+    <form action="{{ url_for('run_checks') }}" method="post">
+        <button type="submit">Run Checks</button>
+    </form>
+</body>
+</html>
+

@@ -43,3 +43,8 @@ if __name__ == "__main__":
         print("- Recommended download speed for HD video calls: 3-4 Mbps or higher.")
         print("- Recommended upload speed for smooth remote work: 1-2 Mbps or higher.")
 
+def display_recommendations():
+    print("\nEnhance Your Remote Work Setup:")
+    print("- Secure your connection with [NordVPN](YOUR_AFFILIATE_LINK)")
+    print("- Protect your system with [McAfee Antivirus](YOUR_AFFILIATE_LINK)")
+    print("- Boost internet performance with [Google Nest WiFi](YOUR_AFFILIATE_LINK)")
