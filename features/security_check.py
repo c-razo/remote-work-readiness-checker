@@ -35,6 +35,22 @@ def system_security_check():
         except Exception as e:
             results["Firewall"] = f"Error checking firewall status: {e}"
 
+        # Check for macOS software updates
+        try:
+            update_status = subprocess.run(
+                ["softwareupdate", "--list"],
+                capture_output=True, text=True
+            )
+            if "No new software available." in update_status.stdout:
+                results["Software Updates"] = "Up to date"
+            else:
+                results["Software Updates"] = "Updates available. Run 'softwareupdate -i -a' to install."
+        except Exception as e:
+            results["Software Updates"] = f"Error checking software updates: {e}"
+
+    # Placeholder for antivirus check
+    results["Antivirus"] = "No antivirus detected. Consider installing one for better security."
+
     # Placeholder for 2FA Check
     results["2FA"] = "Check manual configuration for 2FA (not implemented yet)."
 
