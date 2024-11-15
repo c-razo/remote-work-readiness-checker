@@ -67,9 +67,16 @@
  Ping: 26.23 ms
  ```
 
- ## Contributing
- Contributions are welcome! Please submit a pull request or file an issue if you’d like to help.
+## Business Use
 
- ## License
- This project is licensed under the MIT License.
- ```
+Remote Work Readiness Checker is available for corporate licensing. This allows companies to use the tool internally across multiple users under a single license agreement.
+
+### License Agreement
+For corporate licensing, please refer to the [Corporate License Agreement](LICENSE_CORPORATE.md).
+
+### Contact
+For inquiries and licensing fees, please contact [christopher.razo@icloud.com].
+
+## Contributing
+Contributions are welcome! Please submit a pull request or file an issue if you’d like to help.
+
