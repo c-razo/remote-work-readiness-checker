@@ -1,19 +1,30 @@
 # Remote Work Readiness Checker
 
 ## Overview
-The Remote Work Readiness Checker is a tool designed to evaluate and improve remote work setups. It provides actionable recommendations on system security, internet speed, and productivity tools.
+The Remote Work Readiness Checker is a Python-based tool designed to evaluate remote work environments. It provides insights into system security, internet speed, and configuration of essential tools, helping users optimize their setup for productivity and security.
 
-## Features (Planned)
-- **System Security Check**: Detect outdated software, weak passwords, and lack of 2FA.
-- **Internet Speed Test**: Test and compare internet speeds for remote work needs.
-- **Tool Configuration Audit**: Ensure optimal configuration for popular tools (Zoom, Teams, etc.).
-- **Work Environment Analysis**: Offer ergonomic and productivity recommendations.
+## Features
+- **System Security Check**: 
+  - Checks operating system details.
+  - Flags default usernames.
+  - Recommends strong passwords.
+  - Checks firewall status (macOS only).
+  - Checks for software updates (macOS only).
+  - Recommends antivirus software.
+  - Highlights the importance of Two-Factor Authentication (2FA).
+
+- **Internet Speed Test**:
+  - Measures download speed, upload speed, and ping time, providing valuable metrics for remote work performance.
 
 ## Installation
-*Instructions will be added soon.*
 
-## Contributing
-Contributions are welcome. Please submit a pull request or file an issue if you’d like to help!
+### Prerequisites
+- Python 3.6 or higher
+- [speedtest-cli](https://pypi.org/project/speedtest-cli/) library for internet speed testing
 
-## License
-MIT
+### Steps
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/yourusername/remote-work-readiness-checker.git
+   cd remote-work-readiness-checker
+
