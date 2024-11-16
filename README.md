@@ -1,3 +1,7 @@
+Hereâ€™s the updated README file to eliminate the copy icon issue:
+
+---
+
 # Remote Work Readiness Checker
 
 ## Overview
@@ -28,57 +32,41 @@ The Remote Work Readiness Checker is a Python-based tool designed to evaluate re
 
 ### Steps
 1. Clone this repository:
-   ```bash
-   git clone https://github.com/yourusername/remote-work-readiness-checker.git
-   cd remote-work-readiness-checker
-   ```
+    git clone https://github.com/yourusername/remote-work-readiness-checker.git
+    cd remote-work-readiness-checker
 
 2. Set up a virtual environment:
-   ```bash
-   python3 -m venv venv
-   source venv/bin/activate
-   ```
+    python3 -m venv venv
+    source venv/bin/activate
 
 3. Install the required packages:
-   ```bash
-   pip install -r requirements.txt
-   ```
+    pip install -r requirements.txt
 
 ## Usage
 1. Ensure the virtual environment is activated:
-   ```bash
-   source venv/bin/activate
-   ```
+    source venv/bin/activate
 
 2. Run the Flask app:
-   ```bash
-   python app.py --host=0.0.0.0 --port=5001
-   ```
+    python app.py --host=0.0.0.0 --port=5001
 
 3. Access the application in your browser:
-   ```
-   http://<your-ip-address>:5001
-   ```
+    http://<your-ip-address>:5001
 
 ## Example Output
 ### System Security Check
-```plaintext
-Running System Security Check...
-Operating System: macOS 15.1 - arm64
-Password Strength: Ensure you are using a strong password (not checked here).
-Firewall: Disabled. Enable it for better security.
-Software Updates: Updates available. Run 'softwareupdate -i -a' to install.
-Antivirus: No antivirus detected. Consider installing one for better security.
-2FA: Check manual configuration for 2FA (not implemented yet).
-```
+    Running System Security Check...
+    Operating System: macOS 15.1 - arm64
+    Password Strength: Ensure you are using a strong password (not checked here).
+    Firewall: Disabled. Enable it for better security.
+    Software Updates: Updates available. Run 'softwareupdate -i -a' to install.
+    Antivirus: No antivirus detected. Consider installing one for better security.
+    2FA: Check manual configuration for 2FA (not implemented yet).
 
 ### Internet Speed Test
-```plaintext
-Running Internet Speed Test...
-Download Speed: 185.25 Mbps
-Upload Speed: 24.46 Mbps
-Ping: 26.23 ms
-```
+    Running Internet Speed Test...
+    Download Speed: 185.25 Mbps
+    Upload Speed: 24.46 Mbps
+    Ping: 26.23 ms
 
 ### Web Interface
 The application displays results in a clean and structured interface, accessible via any browser.
@@ -120,4 +108,3 @@ Contributions are welcome! Please submit a pull request or file an issue if youâ
 
 - **Individual Use**: Licensed under the [MIT License](LICENSE.md).
 - **Business Use**: For corporate licensing, refer to the [Corporate License Agreement](LICENSE_CORPORATE.md).
-```
