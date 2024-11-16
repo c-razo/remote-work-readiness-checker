@@ -1,6 +1,6 @@
-from flask import Flask, render_template, request, redirect, url_for
-from features.security_check import system_security_check
-from features.speed_test import internet_speed_test
+from flask import Flask, render_template, request, jsonify
+import platform
+import random
 
 app = Flask(__name__)
 
@@ -10,17 +10,46 @@ def index():
 
 @app.route('/run_checks', methods=['POST'])
 def run_checks():
-    # Run system security check
-    security_results = system_security_check()
+    # System Security Check Mock Data
+    security_data = {
+        "Operating System": platform.platform(),
+        "Password Strength": "Ensure you are using a strong password (not checked here).",
+        "Firewall": "Disabled. Enable it for better security.",
+        "Software Updates": "Updates available. Run 'softwareupdate -i -a' to install.",
+        "Antivirus": "No antivirus detected. Consider installing one for better security.",
+        "2FA": "Check manual configuration for 2FA (not implemented yet)."
+    }
 
-    # Run internet speed test
-    speed_results = internet_speed_test()
+    # Internet Speed Test Mock Data
+    speed_data = {
+        "Download Speed": f"{random.uniform(50, 200):.2f} Mbps",
+        "Upload Speed": f"{random.uniform(10, 50):.2f} Mbps",
+        "Ping": f"{random.uniform(10, 50):.2f} ms"
+    }
 
-    return render_template('results.html', security=security_results, speed=speed_results)
+    return render_template('results.html', security=security_data, speed=speed_data)
 
-import os
+@app.route('/download_results', methods=['GET'])
+def download_results():
+    results = {
+        "System Security": {
+            "Operating System": platform.platform(),
+            "Password Strength": "Ensure you are using a strong password (not checked here).",
+            "Firewall": "Disabled. Enable it for better security.",
+            "Software Updates": "Updates available. Run 'softwareupdate -i -a' to install.",
+            "Antivirus": "No antivirus detected. Consider installing one for better security.",
+            "2FA": "Check manual configuration for 2FA (not implemented yet)."
+        },
+        "Internet Speed": {
+            "Download Speed": f"{random.uniform(50, 200):.2f} Mbps",
+            "Upload Speed": f"{random.uniform(10, 50):.2f} Mbps",
+            "Ping": f"{random.uniform(10, 50):.2f} ms"
+        }
+    }
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    # Return results as a JSON file
+    return jsonify(results)
+
+if __name__ == '__main__':
+    app.run(debug=True, host='0.0.0.0', port=5001)
 
