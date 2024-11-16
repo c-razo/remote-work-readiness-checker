@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify
 import platform
+import speedtest
 import random
 
 app = Flask(__name__)
@@ -20,12 +21,22 @@ def run_checks():
         "2FA": "Check manual configuration for 2FA (not implemented yet)."
     }
 
-    # Internet Speed Test Mock Data
-    speed_data = {
-        "Download Speed": f"{random.uniform(50, 200):.2f} Mbps",
-        "Upload Speed": f"{random.uniform(10, 50):.2f} Mbps",
-        "Ping": f"{random.uniform(10, 50):.2f} ms"
-    }
+    # Real-Time Internet Speed Test
+    try:
+        st = speedtest.Speedtest()
+        st.get_best_server()
+        download_speed = st.download() / 1_000_000  # Convert to Mbps
+        upload_speed = st.upload() / 1_000_000  # Convert to Mbps
+        ping = st.results.ping
+        speed_data = {
+            "Download Speed": f"{download_speed:.2f} Mbps",
+            "Upload Speed": f"{upload_speed:.2f} Mbps",
+            "Ping": f"{ping:.2f} ms"
+        }
+    except Exception as e:
+        speed_data = {
+            "Error": "Unable to perform speed test. Please try again later."
+        }
 
     return render_template('results.html', security=security_data, speed=speed_data)
 
