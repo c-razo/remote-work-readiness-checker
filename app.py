@@ -1,19 +1,12 @@
 from flask import Flask, render_template, jsonify
 import speedtest
 import platform
-import threading
 
 app = Flask(__name__)
 
-# Global variables to hold speed test results
-speed_results = {
-    "download_speed": None,
-    "upload_speed": None,
-    "ping": None
-}
-
-# Function to perform the speed test asynchronously
+# Function to perform the speed test
 def run_speed_test():
+    speed_results = {}
     try:
         st = speedtest.Speedtest()
         st.get_best_server()
@@ -26,11 +19,12 @@ def run_speed_test():
         speed_results["upload_speed"] = "Unavailable"
         speed_results["ping"] = "Unavailable"
         print(f"Speedtest Error: {e}")
+    return speed_results
 
 @app.route('/')
 def index():
-    # Start speed test in a background thread
-    threading.Thread(target=run_speed_test).start()
+    # Run the speed test synchronously
+    speed_results = run_speed_test()
 
     # Get system information
     operating_system = f"{platform.system()} {platform.version()}"
@@ -55,7 +49,7 @@ def index():
 
 @app.route('/speedtest-results')
 def get_speedtest_results():
-    return jsonify(speed_results)
+    return jsonify(run_speed_test())
 
 if __name__ == '__main__':
     app.run(debug=True)
