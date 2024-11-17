@@ -1,6 +1,7 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, request, jsonify
 import speedtest
 import platform
+import re
 
 app = Flask(__name__)
 
@@ -21,35 +22,18 @@ def run_speed_test():
         print(f"Speedtest Error: {e}")
     return speed_results
 
-@app.route('/')
+# Function to check password strength
+def check_password_strength(password):
+    if len(password) < 8:
+        return "Weak: Too short"
+    if not re.search("[a-z]", password) or not re.search("[A-Z]", password):
+        return "Weak: Include uppercase and lowercase letters"
+    if not re.search("[0-9]", password):
+        return "Weak: Include at least one number"
+    if not re.search("[!@#$%^&*(),.?\":{}|<>]", password):
+        return "Weak: Include special characters"
+    return "Strong"
+
+@app.route('/', methods=['GET', 'POST'])
 def index():
-    # Run the speed test synchronously
-    speed_results = run_speed_test()
-
-    # Get system information
-    operating_system = f"{platform.system()} {platform.version()}"
-    password_strength = "Ensure you are using a strong password"  # Placeholder
-    firewall_status = "Enabled" if platform.system() == "Linux" else "Check manually"
-    antivirus_status = "Active" if platform.system() == "Windows" else "No antivirus detected"
-    software_updates = "Up-to-date" if platform.system() == "Darwin" else "Check for updates manually"
-    two_factor_authentication = "Check manual configuration for 2FA"  # Placeholder
-
-    return render_template(
-        'index.html',
-        operating_system=operating_system,
-        password_strength=password_strength,
-        firewall_status=firewall_status,
-        software_updates=software_updates,
-        antivirus_status=antivirus_status,
-        two_factor_authentication=two_factor_authentication,
-        download_speed=speed_results["download_speed"],
-        upload_speed=speed_results["upload_speed"],
-        ping=speed_results["ping"]
-    )
-
-@app.route('/speedtest-results')
-def get_speedtest_results():
-    return jsonify(run_speed_test())
-
-if __name__ == '__main__':
-    app.run(debug=True)
+    # Run the spee
