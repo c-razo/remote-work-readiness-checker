@@ -1,66 +1,55 @@
 from flask import Flask, render_template, request, jsonify
-import platform
 import speedtest
-import random
+import os
+import subprocess
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route("/")
 def index():
-    return render_template('index.html')
+    return render_template("index.html")
 
-@app.route('/run_checks', methods=['POST'])
+@app.route("/run_checks", methods=["POST"])
 def run_checks():
-    # System Security Check Mock Data
-    security_data = {
-        "Operating System": platform.platform(),
-        "Password Strength": "Ensure you are using a strong password (not checked here).",
-        "Firewall": "Disabled. Enable it for better security.",
-        "Software Updates": "Updates available. Run 'softwareupdate -i -a' to install.",
-        "Antivirus": "No antivirus detected. Consider installing one for better security.",
-        "2FA": "Check manual configuration for 2FA (not implemented yet)."
-    }
+    # Simulating system checks
+    os_info = os.uname()
+    password_strength = "Ensure you are using a strong password (not checked here)."
+    firewall = "Disabled. Enable it for better security."
+    software_updates = check_software_updates()
+    antivirus = "No antivirus detected. Consider installing one for better security."
+    two_factor_auth = "Check manual configuration for 2FA (not implemented yet)."
 
-    # Real-Time Internet Speed Test
+    # Speed test part
     try:
         st = speedtest.Speedtest()
-        st.get_best_server()
-        download_speed = st.download() / 1_000_000  # Convert to Mbps
-        upload_speed = st.upload() / 1_000_000  # Convert to Mbps
+        download_speed = st.download() / 1e6  # Mbps
+        upload_speed = st.upload() / 1e6  # Mbps
         ping = st.results.ping
-        speed_data = {
-            "Download Speed": f"{download_speed:.2f} Mbps",
-            "Upload Speed": f"{upload_speed:.2f} Mbps",
-            "Ping": f"{ping:.2f} ms"
-        }
     except Exception as e:
-        speed_data = {
-            "Error": "Unable to perform speed test. Please try again later."
-        }
+        download_speed = upload_speed = ping = None
+        print(f"Error running speedtest: {e}")
 
-    return render_template('results.html', security=security_data, speed=speed_data)
+    # Return results to render on the page
+    return render_template("index.html",
+                           os=os_info,
+                           password_strength=password_strength,
+                           firewall=firewall,
+                           software_updates=software_updates,
+                           antivirus=antivirus,
+                           two_factor_auth=two_factor_auth,
+                           download_speed=download_speed,
+                           upload_speed=upload_speed,
+                           ping=ping)
 
-@app.route('/download_results', methods=['GET'])
-def download_results():
-    results = {
-        "System Security": {
-            "Operating System": platform.platform(),
-            "Password Strength": "Ensure you are using a strong password (not checked here).",
-            "Firewall": "Disabled. Enable it for better security.",
-            "Software Updates": "Updates available. Run 'softwareupdate -i -a' to install.",
-            "Antivirus": "No antivirus detected. Consider installing one for better security.",
-            "2FA": "Check manual configuration for 2FA (not implemented yet)."
-        },
-        "Internet Speed": {
-            "Download Speed": f"{random.uniform(50, 200):.2f} Mbps",
-            "Upload Speed": f"{random.uniform(10, 50):.2f} Mbps",
-            "Ping": f"{random.uniform(10, 50):.2f} ms"
-        }
-    }
+def check_software_updates():
+    try:
+        result = subprocess.run(['softwareupdate', '-l'], capture_output=True, text=True)
+        if "No new software available" in result.stdout:
+            return "Your system is up-to-date."
+        else:
+            return "Updates available. Run 'softwareupdate -i -a' to install."
+    except Exception as e:
+        return f"Error checking for updates: {e}"
 
-    # Return results as a JSON file
-    return jsonify(results)
-
-if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5001)
-
+if __name__ == "__main__":
+    app.run(debug=True, host="0.0.0.0", port=5001)
