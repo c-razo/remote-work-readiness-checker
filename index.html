@@ -22,21 +22,37 @@
         <hr>
 
         <h3 class="mt-5">Results</h3>
-        <div class="mt-3">
-            <h5>System Security Check</h5>
-            <p><strong>Operating System:</strong> {{ os.sysname }} {{ os.machine }} ({{ os.release }})</p>
-            <p><strong>Password Strength:</strong> {{ password_strength }}</p>
-            <p><strong>Firewall:</strong> {{ firewall }}</p>
-            <p><strong>Software Updates:</strong> {{ software_updates }}</p>
-            <p><strong>Antivirus:</strong> {{ antivirus }}</p>
-            <p><strong>2FA:</strong> {{ two_factor_auth }}</p>
-        </div>
+        <div class="row">
+            <!-- System Security Check -->
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>System Security Check</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Operating System:</strong> {{ os.sysname }} {{ os.machine }} ({{ os.release }})</p>
+                        <p><strong>Password Strength:</strong> {{ password_strength }}</p>
+                        <p><strong>Firewall:</strong> {{ firewall }}</p>
+                        <p><strong>Software Updates:</strong> {{ software_updates }}</p>
+                        <p><strong>Antivirus:</strong> {{ antivirus }}</p>
+                        <p><strong>2FA:</strong> {{ two_factor_auth }}</p>
+                    </div>
+                </div>
+            </div>
 
-        <div class="mt-4">
-            <h5>Internet Speed Test</h5>
-            <p><strong>Download Speed:</strong> {{ download_speed | round(2) }} Mbps</p>
-            <p><strong>Upload Speed:</strong> {{ upload_speed | round(2) }} Mbps</p>
-            <p><strong>Ping:</strong> {{ ping }} ms</p>
+            <!-- Internet Speed Test -->
+            <div class="col-md-6">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <h5>Internet Speed Test</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Download Speed:</strong> {{ download_speed | round(2) }} Mbps</p>
+                        <p><strong>Upload Speed:</strong> {{ upload_speed | round(2) }} Mbps</p>
+                        <p><strong>Ping:</strong> {{ ping }} ms</p>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <div class="mt-4">
