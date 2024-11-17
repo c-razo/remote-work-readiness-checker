@@ -1,7 +1,3 @@
-Here’s the updated README file to eliminate the copy icon issue:
-
----
-
 # Remote Work Readiness Checker
 
 ## Overview
