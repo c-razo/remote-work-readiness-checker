@@ -68,7 +68,6 @@ The Remote Work Readiness Checker is a Python-based tool designed to evaluate re
 The application displays results in a clean and structured interface, accessible via any browser.
 
 ## Business Use
-
 Remote Work Readiness Checker is available for corporate licensing. This allows companies to use the tool internally across multiple users under a single license agreement.
 
 ### Contact
@@ -99,6 +98,9 @@ For inquiries and licensing fees, please contact [christopher.razo@icloud.com].
 Contributions are welcome! Please submit a pull request or file an issue if you’d like to help.
 
 ## License
-
 - **Individual Use**: Licensed under the [MIT License](LICENSE.md).
 - **Business Use**: For corporate licensing, refer to the [Corporate License Agreement](LICENSE_CORPORATE.md).
+
+## Notes
+- If you encounter the error "Port 5000 is in use," it may be because the AirPlay Receiver service is active on macOS. You can resolve this issue by turning off the AirPlay Receiver:
+  - Go to System Preferences → General → AirDrop & Handoff, and disable the AirPlay Receiver service.
