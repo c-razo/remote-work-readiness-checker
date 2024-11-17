@@ -23,12 +23,12 @@
             <div class="security-check">
                 <h3>System Security Check</h3>
                 <ul>
-                    <li><strong>Operating System:</strong> {{ operating_system }}</li>
-                    <li><strong>Password Strength:</strong> {{ password_strength }}</li>
-                    <li><strong>Firewall:</strong> {{ firewall_status }}</li>
-                    <li><strong>Software Updates:</strong> {{ software_updates }}</li>
-                    <li><strong>Antivirus:</strong> {{ antivirus_status }}</li>
-                    <li><strong>2FA:</strong> {{ two_factor_authentication }}</li>
+                    <li><strong>Operating System:</strong> {{ operating_system or "Unknown" }}</li>
+                    <li><strong>Password Strength:</strong> {{ password_strength or "N/A" }}</li>
+                    <li><strong>Firewall:</strong> {{ firewall_status or "N/A" }}</li>
+                    <li><strong>Software Updates:</strong> {{ software_updates or "N/A" }}</li>
+                    <li><strong>Antivirus:</strong> {{ antivirus_status or "N/A" }}</li>
+                    <li><strong>2FA:</strong> {{ two_factor_authentication or "N/A" }}</li>
                 </ul>
             </div>
 
@@ -36,9 +36,9 @@
             <div class="speed-test">
                 <h3>Internet Speed Test</h3>
                 <ul>
-                    <li><strong>Download Speed:</strong> {{ download_speed }} Mbps</li>
-                    <li><strong>Upload Speed:</strong> {{ upload_speed }} Mbps</li>
-                    <li><strong>Ping:</strong> {{ ping }} ms</li>
+                    <li><strong>Download Speed:</strong> {{ download_speed or 0 }} Mbps</li>
+                    <li><strong>Upload Speed:</strong> {{ upload_speed or 0 }} Mbps</li>
+                    <li><strong>Ping:</strong> {{ ping or 0 }} ms</li>
                 </ul>
                 <!-- Display Speed Test Chart -->
                 <div class="chart-container">
@@ -47,7 +47,7 @@
             </div>
 
             <!-- Button to Re-run Checks -->
-            <button onclick="location.href='/'">Run Again</button>
+            <button onclick="location.href='/'" aria-label="Recheck System">Run Again</button>
         </section>
     </div>
 
@@ -60,16 +60,35 @@
                 labels: ['Download Speed', 'Upload Speed', 'Ping'],
                 datasets: [{
                     label: 'Internet Speed',
-                    data: [{{ download_speed }}, {{ upload_speed }}, {{ ping }}],
+                    data: [
+                        {{ download_speed or 0 }},
+                        {{ upload_speed or 0 }},
+                        {{ ping or 0 }}
+                    ],
                     backgroundColor: ['#4CAF50', '#FF9800', '#2196F3'],
                     borderColor: ['#388E3C', '#F57C00', '#1976D2'],
                     borderWidth: 1
                 }]
             },
             options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw + 
+                                       (context.dataIndex < 2 ? ' Mbps' : ' ms');
+                            }
+                        }
+                    }
+                },
                 scales: {
                     y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Speed'
+                        }
                     }
                 }
             }
