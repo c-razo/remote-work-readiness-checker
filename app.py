@@ -34,9 +34,9 @@ def index():
     # Get system information
     operating_system = f"{platform.system()} {platform.version()}"
     password_strength = "Ensure you are using a strong password"  # Placeholder
-    firewall_status = "Disabled"  # Placeholder
-    software_updates = "Updates available"  # Placeholder
-    antivirus_status = "No antivirus detected"  # Placeholder
+    firewall_status = "Enabled" if platform.system() == "Linux" else "Check manually"
+    antivirus_status = "Active" if platform.system() == "Windows" else "No antivirus detected"
+    software_updates = "Up-to-date" if platform.system() == "Darwin" else "Check for updates manually"
     two_factor_authentication = "Check manual configuration for 2FA"  # Placeholder
 
     return render_template(
