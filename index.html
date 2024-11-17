@@ -37,9 +37,9 @@
             <div class="speed-test">
                 <h3>Internet Speed Test</h3>
                 <ul>
-                    <li><strong>Download Speed:</strong> {{ download_speed or 0 }} Mbps</li>
-                    <li><strong>Upload Speed:</strong> {{ upload_speed or 0 }} Mbps</li>
-                    <li><strong>Ping:</strong> {{ ping or 0 }} ms</li>
+                    <li><strong>Download Speed:</strong> {{ download_speed or "Unavailable" }} Mbps</li>
+                    <li><strong>Upload Speed:</strong> {{ upload_speed or "Unavailable" }} Mbps</li>
+                    <li><strong>Ping:</strong> {{ ping or "Unavailable" }} ms</li>
                 </ul>
                 <!-- Display Speed Test Chart -->
                 <div class="chart-container">
