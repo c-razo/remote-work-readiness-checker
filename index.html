@@ -48,6 +48,7 @@
                     <li><strong>Upload Speed:</strong> {{ upload_speed or "Unavailable" }} Mbps</li>
                     <li><strong>Ping:</strong> {{ ping or "Unavailable" }} ms</li>
                 </ul>
+                <!-- Chart Container -->
                 <div class="chart-container">
                     <canvas id="speedTestChart"></canvas>
                 </div>
@@ -59,6 +60,7 @@
     </div>
 
     <script>
+        // JavaScript for Internet Speed Chart
         var ctx = document.getElementById('speedTestChart').getContext('2d');
         var speedTestChart = new Chart(ctx, {
             type: 'bar',
