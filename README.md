@@ -106,6 +106,50 @@ This tool can be extended or modified to include more tests or integrate additio
     Upload Speed: 24.46 Mbps
     Ping: 26.23 ms
 
+## Screenshots
+
+### 1. Welcome Page
+This is the initial landing page of the app, where users can click "Run Checks" to begin the evaluation.
+
+![Welcome Page](./screenshot_1.png)  
+*Figure 1: Welcome page of the Remote Work Readiness Checker.*
+
+### 2. Results Overview
+Once the checks are completed, users will see a summary of the results, including their operating system info, password strength, firewall status, software updates, and more.
+
+![Results Page](./screenshot_2.png)  
+*Figure 2: The results summary after running the checks.*
+
+### 3. Detailed Results
+This screenshot shows the detailed results, including specific recommendations such as enabling a firewall, updating software, and installing antivirus software.
+
+![Detailed Results](./screenshot_3.png)  
+*Figure 3: Detailed breakdown of system and internet performance checks.*
+
+### 4. Running the App on Localhost
+The server can be accessed locally at `http://127.0.0.1:5000/` and the remote device at `http://10.0.0.86:5001/`.
+
+![Flask Server Running](./screenshot_4.png)  
+*Figure 4: Flask server running on localhost and remote address.*
+
+### 5. Running Internet Speed Tests
+After pressing "Run Checks," the internet speed tests are displayed, showcasing the download and upload speeds, as well as ping.
+
+![Speed Test Results](./screenshot_5.png)  
+*Figure 5: Internet speed test results including download/upload speed and ping.*
+
+### 6. Checking Error for Port 5000
+In case of the "Port 5000 is in use" error, ensure that the AirPlay Receiver service is turned off. Below, the error message and a solution are displayed.
+
+![Error Message](./screenshot_6.png)  
+*Figure 6: Error message related to port 5000 being in use.*
+
+### 7. Disabling AirPlay Receiver
+Here’s how to turn off the AirPlay Receiver service, which may be occupying port 5000 and causing the "Port in Use" error.
+
+![Disabling AirPlay](./screenshot_7.png)  
+*Figure 7: Instructions to disable AirPlay Receiver on macOS.*
+
 ### Web Interface
 The application displays results in a clean and structured interface, accessible via any browser.
 
