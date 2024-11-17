@@ -3,6 +3,16 @@
 ## Overview
 The Remote Work Readiness Checker is a Python-based tool designed to evaluate remote work environments. It provides insights into system security, internet speed, and configuration of essential tools, helping users optimize their setup for productivity and security.
 
+
+## Purpose of the Repository
+
+The **Remote Work Readiness Checker** is a Python-based tool designed to evaluate and optimize remote work environments. It performs system checks for security, including firewall status, antivirus software, and software updates. It also measures internet speed (download/upload speeds, ping), helping users determine if their current network is suitable for remote work.
+
+This tool can be extended or modified to include more tests or integrate additional productivity and security features. Feel free to fork the repository and add more functionality, such as:
+- Additional security checks (e.g., checking for disk encryption, automated backup status).
+- Enhancements to the internet speed test (e.g., adding latency tests for specific servers).
+- Any other performance-related metrics you think might be useful for remote workers.
+
 ## Features
 - **System Security Check**: 
   - Checks operating system details.
