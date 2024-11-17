@@ -1,110 +1,55 @@
 # Remote Work Readiness Checker
 
 ## Overview
-The Remote Work Readiness Checker is a Python-based tool designed to evaluate remote work environments. It provides insights into system security, internet speed, and configuration of essential tools, helping users optimize their setup for productivity and security.
+The **Remote Work Readiness Checker** is a Python-based tool designed to help individuals optimize their remote work setup. This tool evaluates key aspects of a user's environment, including security, internet speed, and productivity tools. By using this checker, remote workers can ensure they have a secure and efficient working setup, which is essential for maintaining productivity and safeguarding sensitive information.
 
-
-## Purpose of the Repository
-
-The **Remote Work Readiness Checker** is a Python-based tool designed to evaluate and optimize remote work environments. It performs system checks for security, including firewall status, antivirus software, and software updates. It also measures internet speed (download/upload speeds, ping), helping users determine if their current network is suitable for remote work.
-
-This tool can be extended or modified to include more tests or integrate additional productivity and security features. Feel free to fork the repository and add more functionality, such as:
-- Additional security checks (e.g., checking for disk encryption, automated backup status).
-- Enhancements to the internet speed test (e.g., adding latency tests for specific servers).
-- Any other performance-related metrics you think might be useful for remote workers.
-
-## Features
-- **System Security Check**: 
-  - Checks operating system details.
-  - Flags default usernames.
-  - Recommends strong passwords.
-  - Checks firewall status (macOS only).
-  - Checks for software updates (macOS only).
-  - Recommends antivirus software.
-  - Highlights the importance of Two-Factor Authentication (2FA).
-
-- **Internet Speed Test**:
-  - Measures download speed, upload speed, and ping time, providing valuable metrics for remote work performance.
-
-- **Interactive Web Interface**:
-  - User-friendly web interface powered by Flask.
-  - Displays results in a structured and easy-to-read format.
+## Key Features
+- **Security Assessment**: Checks if critical security features are enabled on the system, such as firewall status, antivirus software, and the latest software updates.
+- **Internet Speed Evaluation**: Measures your internet connection’s upload, download speeds, and latency to ensure you have an optimal connection for remote work.
+- **Productivity Tools Configuration**: Verifies the setup of essential productivity tools, ensuring they are configured for maximum efficiency.
 
 ## Installation
 
-### Prerequisites
-- Python 3.6 or higher
-- [speedtest-cli](https://pypi.org/project/speedtest-cli/) library for internet speed testing
+To get started, you’ll need to install the required dependencies. Follow these steps:
 
-### Steps
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/c-razo/remote-work-readiness-checker.git
+   ```
 
-1. **Clone the repository**:
-    ```bash
-    git clone https://github.com/yourusername/remote-work-readiness-checker.git
-    ```
+2. **Navigate into the project directory:**
+   ```bash
+   cd remote-work-readiness-checker
+   ```
 
-2. **Navigate to the project directory**:
-    ```bash
-    cd remote-work-readiness-checker
-    ```
+3. **Install the necessary Python dependencies:**
+   You can install the required dependencies using `pip`:
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-3. **Set up a virtual environment**:
-    ```bash
-    python3 -m venv venv
-    ```
-
-4. **Activate the virtual environment**:
-    - On macOS/Linux:
-        ```bash
-        source venv/bin/activate
-        ```
-    - On Windows:
-        ```bash
-        .\venv\Scripts\activate
-        ```
-
-5. **Install the required packages**:
-    ```bash
-    pip install -r requirements.txt
-    ```
+4. **Ensure you have the necessary system tools:**
+   - The security assessment tool may require administrator privileges to check firewall settings.
+   - The internet speed test may require access to your network interfaces, so ensure that the tool can access the necessary system resources.
 
 ## Usage
 
-1. **Ensure the virtual environment is activated** (if it's not already active):
-    - On macOS/Linux:
-        ```bash
-        source venv/bin/activate
-        ```
-    - On Windows:
-        ```bash
-        .\venv\Scripts\activate
-        ```
+Once the setup is complete, you can run the tool by executing the main Python script. This will trigger the checks and generate a report.
 
-2. **Run the Flask app**:
-    ```bash
-    python app.py --host=0.0.0.0 --port=5001
-    ```
+To run the tool:
+1. **Execute the script:**
+   ```bash
+   python app.py
+   ```
 
-3. **Access the application in your browser**:
-    ```
-    http://<your-ip-address>:5001
-    ```
+2. **Follow the on-screen instructions** to start the assessment.
 
-## Example Output
-### System Security Check
-    Running System Security Check...
-    Operating System: macOS 15.1 - arm64
-    Password Strength: Ensure you are using a strong password (not checked here).
-    Firewall: Disabled. Enable it for better security.
-    Software Updates: Updates available. Run 'softwareupdate -i -a' to install.
-    Antivirus: No antivirus detected. Consider installing one for better security.
-    2FA: Check manual configuration for 2FA (not implemented yet).
+3. **Review the results** in the terminal or on the generated HTML report, depending on your configuration.
 
-### Internet Speed Test
-    Running Internet Speed Test...
-    Download Speed: 185.25 Mbps
-    Upload Speed: 24.46 Mbps
-    Ping: 26.23 ms
+### Example Output:
+- **Security**: The tool will display whether your firewall and antivirus software are active, and if any software updates are pending.
+- **Internet Speed**: You'll see the measured download/upload speeds and latency, with recommendations if the speeds are below a recommended threshold.
+- **Productivity Tools**: If configured, it will list the status of commonly used tools (e.g., VPNs, email clients, etc.) and provide suggestions for improvements.
 
 ## Screenshots
 
@@ -156,7 +101,6 @@ The application displays results in a clean and structured interface, accessible
 ## Business Use
 Remote Work Readiness Checker is available for corporate licensing. This allows companies to use the tool internally across multiple users under a single license agreement.
 
-### Contact
 For inquiries and licensing fees, please contact [christopher.razo@icloud.com].
 
 ## Recommended Tools for Remote Work
@@ -180,13 +124,9 @@ For inquiries and licensing fees, please contact [christopher.razo@icloud.com].
 - [LastPass](YOUR_AFFILIATE_LINK) – Manage passwords securely.
 - [Microsoft 365](YOUR_AFFILIATE_LINK) – Essential productivity tools for remote work.
 
-## Contributing
-Contributions are welcome! Please submit a pull request or file an issue if you’d like to help.
-
 ## License
-- **Individual Use**: Licensed under the [MIT License](LICENSE.md).
-- **Business Use**: For corporate licensing, refer to the [Corporate License Agreement](LICENSE_CORPORATE.md).
+This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
 
-## Notes
-- If you encounter the error "Port 5000 is in use," it may be because the AirPlay Receiver service is active on macOS. You can resolve this issue by turning off the AirPlay Receiver:
-  - Go to System Preferences → General → AirDrop & Handoff, and disable the AirPlay Receiver service.
+## Acknowledgements
+- **Speedtest-cli**: Used for internet speed evaluation.
+- **psutil**: Used for checking system information (e.g., firewall status, CPU usage).
