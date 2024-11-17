@@ -1,8 +1,7 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, jsonify
 import speedtest
 import platform
 import subprocess
-import re
 
 app = Flask(__name__)
 
@@ -23,54 +22,58 @@ def run_speed_test():
         print(f"Speedtest Error: {e}")
     return speed_results
 
-# Function to check password strength
-def check_password_strength(password):
-    if len(password) < 8:
-        return "Weak: Too short"
-    if not re.search("[a-z]", password) or not re.search("[A-Z]", password):
-        return "Weak: Include uppercase and lowercase letters"
-    if not re.search("[0-9]", password):
-        return "Weak: Include at least one number"
-    if not re.search("[!@#$%^&*(),.?\":{}|<>]", password):
-        return "Weak: Include special characters"
-    return "Strong"
-
 # Function to check firewall status
 def check_firewall_status():
     try:
-        # Run the macOS firewall status command
-        output = subprocess.check_output(
-            ["/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate"],
-            stderr=subprocess.STDOUT
-        )
-        # Parse the output for "enabled" or "disabled"
-        if b"enabled" in output.lower():
-            return "Enabled"
+        if platform.system() == "Darwin":  # macOS
+            result = subprocess.run(
+                ["sudo", "/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate"],
+                capture_output=True, text=True
+            )
+            return "Enabled" if "State = 1" in result.stdout else "Disabled"
+        elif platform.system() == "Linux":  # Linux
+            result = subprocess.run(
+                ["ufw", "status"], capture_output=True, text=True
+            )
+            return "Enabled" if "active" in result.stdout.lower() else "Disabled"
+        elif platform.system() == "Windows":  # Windows
+            result = subprocess.run(
+                ["netsh", "advfirewall", "show", "allprofiles"], capture_output=True, text=True
+            )
+            return "Enabled" if "State ON" in result.stdout else "Disabled"
         else:
-            return "Disabled"
+            return "Unknown"
     except Exception as e:
-        print(f"Firewall Status Error: {e}")
-        return "Error checking firewall status"
+        print(f"Firewall Check Error: {e}")
+        return "Error"
 
-@app.route('/', methods=['GET', 'POST'])
+# Function to check antivirus status (placeholder logic)
+def check_antivirus_status():
+    try:
+        if platform.system() == "Windows":
+            result = subprocess.run(
+                ["powershell", "-Command", "Get-MpComputerStatus | Select-Object -ExpandProperty AMServiceEnabled"],
+                capture_output=True, text=True
+            )
+            return "Active" if "True" in result.stdout else "Inactive"
+        # Basic placeholder for macOS/Linux
+        return "No antivirus detected"
+    except Exception as e:
+        print(f"Antivirus Check Error: {e}")
+        return "Error"
+
+@app.route('/')
 def index():
     # Run the speed test synchronously
     speed_results = run_speed_test()
 
     # Get system information
     operating_system = f"{platform.system()} {platform.version()}"
-    firewall_status = check_firewall_status()  # Actual firewall status
-    antivirus_status = "Active" if platform.system() == "Windows" else "No antivirus detected"
+    password_strength = "Ensure you are using a strong password"  # Placeholder
+    firewall_status = check_firewall_status()
+    antivirus_status = check_antivirus_status()
     software_updates = "Up-to-date" if platform.system() == "Darwin" else "Check for updates manually"
     two_factor_authentication = "Check manual configuration for 2FA"  # Placeholder
-
-    # Default password strength
-    password_strength = "No password entered"
-
-    # Check for submitted password
-    if request.method == 'POST':
-        password = request.form.get('password', '')
-        password_strength = check_password_strength(password)
 
     return render_template(
         'index.html',
