@@ -15,7 +15,7 @@
 
     <div class="container text-center mt-5">
         <h1 class="mb-4">Remote Work Readiness Checker</h1>
-        <form action="/run_checks" method="POST">
+        <form action="/" method="POST">
             <button type="submit" class="btn btn-primary btn-lg">Run Checks</button>
         </form>
 
@@ -55,20 +55,16 @@
             </div>
         </div>
 
+        <!-- User Input Results -->
+        {% if tools %}
+        <div class="container text-center mt-5">
+            <h3>Remote Work Tools:</h3>
+            <p>{{ tools }}</p>
+        </div>
+        {% endif %}
+
         <div class="mt-4">
             <button onclick="window.location.reload();" class="btn btn-secondary">Run Again</button>
-        </div>
-
-        <!-- User Input Form for Remote Work Tools -->
-        <div class="container text-center mt-5">
-            <h3>Enter your remote work tools</h3>
-            <form action="/submit_suggestions" method="POST">
-                <div class="mb-3">
-                    <label for="tools" class="form-label">What tools do you use for remote work?</label>
-                    <input type="text" class="form-control" id="tools" name="tools" placeholder="e.g., Zoom, Slack, etc.">
-                </div>
-                <button type="submit" class="btn btn-success">Submit</button>
-            </form>
         </div>
     </div>
 
