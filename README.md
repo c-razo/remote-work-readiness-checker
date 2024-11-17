@@ -27,35 +27,39 @@ The Remote Work Readiness Checker is a Python-based tool designed to evaluate re
 - [speedtest-cli](https://pypi.org/project/speedtest-cli/) library for internet speed testing
 
 ### Steps
-1. Clone this repository:
+1. **Clone the repository**:
     ```bash
     git clone https://github.com/yourusername/remote-work-readiness-checker.git
+    ```
+
+2. **Navigate to the project directory**:
+    ```bash
     cd remote-work-readiness-checker
     ```
 
-2. Set up a virtual environment:
+3. **Set up a virtual environment**:
     ```bash
     python3 -m venv venv
     source venv/bin/activate
     ```
 
-3. Install the required packages:
+4. **Install the required packages**:
     ```bash
     pip install -r requirements.txt
     ```
 
 ## Usage
-1. Ensure the virtual environment is activated:
+1. **Ensure the virtual environment is activated**:
     ```bash
     source venv/bin/activate
     ```
 
-2. Run the Flask app:
+2. **Run the Flask app**:
     ```bash
     python app.py --host=0.0.0.0 --port=5001
     ```
 
-3. Access the application in your browser:
+3. **Access the application in your browser**:
     ```
     http://<your-ip-address>:5001
     ```
