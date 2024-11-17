@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remote Work Readiness Checker</title>
-    <!-- Link to the stylesheet in the static folder -->
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -25,7 +24,15 @@
                 <h3>System Security Check</h3>
                 <ul>
                     <li><strong>Operating System:</strong> {{ operating_system or "Unknown" }}</li>
-                    <li><strong>Password Strength:</strong> {{ password_strength or "N/A" }}</li>
+                    <li>
+                        <strong>Password Strength:</strong> {{ password_strength }}
+                        <!-- Password Input Form -->
+                        <form method="POST" style="margin-top: 10px;">
+                            <label for="password">Test Password:</label>
+                            <input type="password" id="password" name="password" placeholder="Enter a password">
+                            <button type="submit">Check Strength</button>
+                        </form>
+                    </li>
                     <li><strong>Firewall:</strong> {{ firewall_status or "N/A" }}</li>
                     <li><strong>Software Updates:</strong> {{ software_updates or "N/A" }}</li>
                     <li><strong>Antivirus:</strong> {{ antivirus_status or "N/A" }}</li>
@@ -41,7 +48,6 @@
                     <li><strong>Upload Speed:</strong> {{ upload_speed or "Unavailable" }} Mbps</li>
                     <li><strong>Ping:</strong> {{ ping or "Unavailable" }} ms</li>
                 </ul>
-                <!-- Display Speed Test Chart -->
                 <div class="chart-container">
                     <canvas id="speedTestChart"></canvas>
                 </div>
@@ -53,7 +59,6 @@
     </div>
 
     <script>
-        // Display speed test results as a chart
         var ctx = document.getElementById('speedTestChart').getContext('2d');
         var speedTestChart = new Chart(ctx, {
             type: 'bar',
@@ -73,23 +78,9 @@
             },
             options: {
                 responsive: true,
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.dataset.label + ': ' + context.raw + 
-                                       (context.dataIndex < 2 ? ' Mbps' : ' ms');
-                            }
-                        }
-                    }
-                },
                 scales: {
                     y: {
-                        beginAtZero: true,
-                        title: {
-                            display: true,
-                            text: 'Speed'
-                        }
+                        beginAtZero: true
                     }
                 }
             }
