@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, jsonify
 import speedtest
 import platform
+import subprocess
 import re
 
 app = Flask(__name__)
@@ -34,6 +35,59 @@ def check_password_strength(password):
         return "Weak: Include special characters"
     return "Strong"
 
+# Function to check firewall status
+def check_firewall_status():
+    try:
+        # Run the macOS firewall status command
+        output = subprocess.check_output(
+            ["/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate"],
+            stderr=subprocess.STDOUT
+        )
+        # Parse the output for "enabled" or "disabled"
+        if b"enabled" in output.lower():
+            return "Enabled"
+        else:
+            return "Disabled"
+    except Exception as e:
+        print(f"Firewall Status Error: {e}")
+        return "Error checking firewall status"
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    # Run the spee
+    # Run the speed test synchronously
+    speed_results = run_speed_test()
+
+    # Get system information
+    operating_system = f"{platform.system()} {platform.version()}"
+    firewall_status = check_firewall_status()  # Actual firewall status
+    antivirus_status = "Active" if platform.system() == "Windows" else "No antivirus detected"
+    software_updates = "Up-to-date" if platform.system() == "Darwin" else "Check for updates manually"
+    two_factor_authentication = "Check manual configuration for 2FA"  # Placeholder
+
+    # Default password strength
+    password_strength = "No password entered"
+
+    # Check for submitted password
+    if request.method == 'POST':
+        password = request.form.get('password', '')
+        password_strength = check_password_strength(password)
+
+    return render_template(
+        'index.html',
+        operating_system=operating_system,
+        password_strength=password_strength,
+        firewall_status=firewall_status,
+        software_updates=software_updates,
+        antivirus_status=antivirus_status,
+        two_factor_authentication=two_factor_authentication,
+        download_speed=speed_results["download_speed"],
+        upload_speed=speed_results["upload_speed"],
+        ping=speed_results["ping"]
+    )
+
+@app.route('/speedtest-results')
+def get_speedtest_results():
+    return jsonify(run_speed_test())
+
+if __name__ == '__main__':
+    app.run(debug=True)
