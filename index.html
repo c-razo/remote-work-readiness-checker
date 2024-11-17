@@ -4,28 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remote Work Readiness Checker</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-light">
-    <div class="container text-center mt-5">
-        <h1 class="display-4">Remote Work Readiness Checker</h1>
-        <p>Analyze your remote work setup and optimize for productivity.</p>
-        <form action="/run_checks" method="POST">
-            <button type="submit" class="btn btn-success">Run Checks</button>
-        </form>
 
-        {% if results %}
-            <div class="container text-center mt-5">
-                <h3>Test Results</h3>
-                <p><strong>Download Speed:</strong> {{ results.download_speed }} Mbps</p>
-                <p><strong>Upload Speed:</strong> {{ results.upload_speed }} Mbps</p>
-                <p><strong>Ping:</strong> {{ results.ping }} ms</p>
-                <!-- Example of adding chart or graph if needed -->
-                <!-- Add Chart.js canvas and scripts here -->
-            </div>
-        {% endif %}
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4">Remote Work Readiness Checker</h1>
+        <p class="lead">Analyze your remote work setup and optimize for productivity.</p>
+        <button class="btn btn-success btn-lg" id="runChecksBtn">Run Checks</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <div id="results" class="d-none">
+        <h3 class="text-center">Speed Test Results</h3>
+        <ul class="list-group">
+            <li class="list-group-item">Download Speed: <span id="downloadSpeed">0</span> Mbps</li>
+            <li class="list-group-item">Upload Speed: <span id="uploadSpeed">0</span> Mbps</li>
+            <li class="list-group-item">Ping: <span id="ping">0</span> ms</li>
+        </ul>
+        <h3 class="text-center mt-4">Internet Speed Overview</h3>
+        <div class="card">
+            <div class="card-body">
+                <canvas id="speedChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <a href="/" class="btn btn-success">Run Again</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById('runChecksBtn').addEventListener('click', function () {
+        fetch('/run_checks', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    document.getElementById('results').classList.remove('d-none');
+                    document.getElementById('downloadSpeed').textContent = data.download_speed.toFixed(2);
+                    document.getElementById('uploadSpeed').textContent = data.upload_speed.toFixed(2);
+                    document.getElementById('ping').textContent = data.ping.toFixed(2);
+
+                    // Prepare data for chart.js
+                    const dataForChart = {
+                        labels: ['Download Speed', 'Upload Speed', 'Ping'],
+                        datasets: [{
+                            label: 'Speed Metrics',
+                            data: [
+                                data.download_speed,
+                                data.upload_speed,
+                                data.ping
+                            ],
+                            backgroundColor: [
+                                'rgba(75, 192, 192, 0.2)',
+                                'rgba(54, 162, 235, 0.2)',
+                                'rgba(255, 206, 86, 0.2)'
+                            ],
+                            borderColor: [
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    };
+
+                    const config = {
+                        type: 'bar',
+                        data: dataForChart,
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    position: 'top',
+                                }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    };
+
+                    // Render the chart
+                    const ctx = document.getElementById('speedChart').getContext('2d');
+                    new Chart(ctx, config);
+                }
+            })
+            .catch(error => alert('There was an error: ' + error));
+    });
+</script>
+
 </body>
 </html>
