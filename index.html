@@ -4,90 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remote Work Readiness Checker</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div class="container mt-5">
-        <div class="text-center mb-5">
-            <h1 class="display-4">Remote Work Readiness Checker</h1>
+    <div class="container">
+        <header>
+            <h1>Remote Work Readiness Checker</h1>
             <p>Analyze your remote work setup and optimize for productivity.</p>
-            <button id="runChecksBtn" class="btn btn-primary">Run Checks</button>
-        </div>
-        <div id="results" class="card bg-dark text-white mb-4" style="display:none;">
-            <div class="card-header text-center">
-                <h2>Results</h2>
-            </div>
-            <div class="card-body">
-                <h3 class="text-center text-success">System Check</h3>
-                <ul class="list-group">
-                    <li class="list-group-item bg-dark text-white"><strong>Download Speed:</strong> <span id="downloadSpeed">N/A</span> Mbps</li>
-                    <li class="list-group-item bg-dark text-white"><strong>Upload Speed:</strong> <span id="uploadSpeed">N/A</span> Mbps</li>
-                    <li class="list-group-item bg-dark text-white"><strong>Ping:</strong> <span id="ping">N/A</span> ms</li>
+        </header>
+
+        <!-- Results Section -->
+        <section class="results">
+            <h2>Results</h2>
+            
+            <!-- System Security Check -->
+            <div class="security-check">
+                <h3>System Security Check</h3>
+                <ul>
+                    <li><strong>Operating System:</strong> {{ operating_system }}</li>
+                    <li><strong>Password Strength:</strong> {{ password_strength }}</li>
+                    <li><strong>Firewall:</strong> {{ firewall_status }}</li>
+                    <li><strong>Software Updates:</strong> {{ software_updates }}</li>
+                    <li><strong>Antivirus:</strong> {{ antivirus_status }}</li>
+                    <li><strong>2FA:</strong> {{ two_factor_authentication }}</li>
                 </ul>
-                <h3 class="text-center text-success mt-4">Internet Speed Overview</h3>
-                <canvas id="speedChart" width="400" height="200"></canvas>
-                <div class="text-center mt-4">
-                    <button id="runAgainBtn" class="btn btn-success">Run Again</button>
+            </div>
+
+            <!-- Internet Speed Test -->
+            <div class="speed-test">
+                <h3>Internet Speed Test</h3>
+                <ul>
+                    <li><strong>Download Speed:</strong> {{ download_speed }} Mbps</li>
+                    <li><strong>Upload Speed:</strong> {{ upload_speed }} Mbps</li>
+                    <li><strong>Ping:</strong> {{ ping }} ms</li>
+                </ul>
+                <!-- Display Speed Test Chart -->
+                <div class="chart-container">
+                    <canvas id="speedTestChart"></canvas>
                 </div>
             </div>
-        </div>
+
+            <!-- Button to Re-run Checks -->
+            <button onclick="location.href='/'">Run Again</button>
+        </section>
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
     <script>
-        $(document).ready(function() {
-            // When the 'Run Checks' button is clicked
-            $("#runChecksBtn").click(function() {
-                // Make the POST request to /run_checks to get the speed test data
-                $.post("/run_checks", function(data) {
-                    // Update the result display
-                    $('#downloadSpeed').text(data.download_speed.toFixed(2));
-                    $('#uploadSpeed').text(data.upload_speed.toFixed(2));
-                    $('#ping').text(data.ping.toFixed(2));
-
-                    // Display the results card
-                    $('#results').show();
-                    
-                    // Draw the chart
-                    var ctx = document.getElementById('speedChart').getContext('2d');
-                    var chart = new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: ['Download Speed', 'Upload Speed', 'Ping'],
-                            datasets: [{
-                                label: 'Speed Metrics',
-                                data: [data.download_speed, data.upload_speed, data.ping],
-                                backgroundColor: [
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)'
-                                ],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            scales: {
-                                y: {
-                                    beginAtZero: true
-                                }
-                            }
-                        }
-                    });
-                });
-            });
-
-            // When 'Run Again' button is clicked, refresh the page
-            $("#runAgainBtn").click(function() {
-                location.reload();
-            });
+        // Display speed test results as a chart
+        var ctx = document.getElementById('speedTestChart').getContext('2d');
+        var speedTestChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Download Speed', 'Upload Speed', 'Ping'],
+                datasets: [{
+                    label: 'Internet Speed',
+                    data: [{{ download_speed }}, {{ upload_speed }}, {{ ping }}],
+                    backgroundColor: ['#4CAF50', '#FF9800', '#2196F3'],
+                    borderColor: ['#388E3C', '#F57C00', '#1976D2'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
         });
     </script>
 </body>
