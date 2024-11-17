@@ -21,9 +21,10 @@ def run_speed_test():
         speed_results["upload_speed"] = round(st.upload() / 1e6, 2)  # Mbps
         speed_results["ping"] = round(st.results.ping, 2)
     except Exception as e:
-        speed_results["download_speed"] = "Error"
-        speed_results["upload_speed"] = "Error"
-        speed_results["ping"] = "Error"
+        # Fallback values for errors
+        speed_results["download_speed"] = "Unavailable"
+        speed_results["upload_speed"] = "Unavailable"
+        speed_results["ping"] = "Unavailable"
         print(f"Speedtest Error: {e}")
 
 @app.route('/')
