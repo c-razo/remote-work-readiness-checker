@@ -1,135 +1,118 @@
 # Remote Work Readiness Checker
 
 ## Overview
-
-This tool helps users evaluate their remote work setup for productivity and security. It runs system checks for firewall status, antivirus software, software updates, and internet speed (download/upload speeds, ping), and presents results with actionable recommendations.
+The Remote Work Readiness Checker is a Python-based tool designed to evaluate remote work environments. It provides insights into system security, internet speed, and configuration of essential tools, helping users optimize their setup for productivity and security.
 
 ## Features
+- **System Security Check**: 
+  - Checks operating system details.
+  - Flags default usernames.
+  - Recommends strong passwords.
+  - Checks firewall status (macOS only).
+  - Checks for software updates (macOS only).
+  - Recommends antivirus software.
+  - Highlights the importance of Two-Factor Authentication (2FA).
 
-- **System Security Check**
-  - Operating System
-  - Password Strength
-  - Firewall Status
-  - Software Updates
-  - Antivirus Check
-  - 2FA (Two-Factor Authentication) Configuration Check
+- **Internet Speed Test**:
+  - Measures download speed, upload speed, and ping time, providing valuable metrics for remote work performance.
 
-- **Internet Speed Test**
-  - Download Speed
-  - Upload Speed
-  - Ping
-  
-## Screenshots
+- **Interactive Web Interface**:
+  - User-friendly web interface powered by Flask.
+  - Displays results in a structured and easy-to-read format.
 
-Here are a few key screenshots of the app in action:
+## Installation
 
-### 1. Welcome Page
+### Prerequisites
+- Python 3.6 or higher
+- [speedtest-cli](https://pypi.org/project/speedtest-cli/) library for internet speed testing
 
-This is the initial landing page of the app, where users can click "Run Checks" to begin the evaluation.
+### Steps
+1. Clone this repository:
+    ```bash
+    git clone https://github.com/yourusername/remote-work-readiness-checker.git
+    cd remote-work-readiness-checker
+    ```
 
-![Welcome Page](./screenshots/1.png)  
-*Figure 1: Welcome page of the Remote Work Readiness Checker.*
+2. Set up a virtual environment:
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate
+    ```
 
-### 2. Results Overview
-
-Once the checks are completed, users will see a summary of the results, including their operating system info, password strength, firewall status, software updates, and more.
-
-![Results Page](./screenshots/2.png)  
-*Figure 2: The results summary after running the checks.*
-
-### 3. Detailed Results
-
-This screenshot shows the detailed results, including specific recommendations such as enabling a firewall, updating software, and installing antivirus software.
-
-![Detailed Results](./screenshots/3.png)  
-*Figure 3: Detailed breakdown of system and internet performance checks.*
-
-### 4. Running the App on Localhost
-
-The server can be accessed locally at `http://127.0.0.1:5000/` and the remote device at `http://10.0.0.86:5001/`.
-
-![Flask Server Running](./screenshots/4.png)  
-*Figure 4: Flask server running on localhost and remote address.*
-
-### 5. Running Internet Speed Tests
-
-After pressing "Run Checks," the internet speed tests are displayed, showcasing the download and upload speeds, as well as ping.
-
-![Speed Test Results](./screenshots/5.png)  
-*Figure 5: Internet speed test results including download/upload speed and ping.*
-
-### 6. Checking Error for Port 5000
-
-In case of the "Port 5000 is in use" error, ensure that the AirPlay Receiver service is turned off. Below, the error message and a solution are displayed.
-
-![Error Message](./screenshots/6.png)  
-*Figure 6: Error message related to port 5000 being in use.*
-
-### 7. Disabling AirPlay Receiver
-
-Here’s how to turn off the AirPlay Receiver service, which may be occupying port 5000 and causing the "Port in Use" error.
-
-![Disabling AirPlay](./screenshots/7.png)  
-*Figure 7: Instructions to disable AirPlay Receiver on macOS.*
+3. Install the required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
 ## Usage
+1. Ensure the virtual environment is activated:
+    ```bash
+    source venv/bin/activate
+    ```
 
-### Requirements
+2. Run the Flask app:
+    ```bash
+    python app.py --host=0.0.0.0 --port=5001
+    ```
 
-- macOS, Windows, or Linux (Python 3.8 or higher)
-- Flask (`pip install flask`)
-- Speedtest-cli (`pip install speedtest-cli`)
+3. Access the application in your browser:
+    ```
+    http://<your-ip-address>:5001
+    ```
 
-### Starting the Server
+## Example Output
+### System Security Check
+    Running System Security Check...
+    Operating System: macOS 15.1 - arm64
+    Password Strength: Ensure you are using a strong password (not checked here).
+    Firewall: Disabled. Enable it for better security.
+    Software Updates: Updates available. Run 'softwareupdate -i -a' to install.
+    Antivirus: No antivirus detected. Consider installing one for better security.
+    2FA: Check manual configuration for 2FA (not implemented yet).
 
-To run the tool locally, use the following command in your terminal (assuming you're in the project directory and have the virtual environment activated):
+### Internet Speed Test
+    Running Internet Speed Test...
+    Download Speed: 185.25 Mbps
+    Upload Speed: 24.46 Mbps
+    Ping: 26.23 ms
 
-```bash
-flask --app app run --host=0.0.0.0 --port=5000
-```
+### Web Interface
+The application displays results in a clean and structured interface, accessible via any browser.
 
-If you experience a conflict with port 5000 being used by another application (e.g., AirPlay Receiver), you can change the port number:
+## Business Use
+Remote Work Readiness Checker is available for corporate licensing. This allows companies to use the tool internally across multiple users under a single license agreement.
 
-```bash
-flask --app app run --host=0.0.0.0 --port=5001
-```
+### Contact
+For inquiries and licensing fees, please contact [christopher.razo@icloud.com].
 
-### Running the Checks
+## Recommended Tools for Remote Work
 
-1. Open your browser and navigate to `http://127.0.0.1:5000/` (or the remote address `http://<your IP>:5000/`).
-2. Click **Run Checks** to begin the system analysis.
-3. Review the results displayed after the checks are complete.
+### VPN Services
+- [NordVPN](YOUR_AFFILIATE_LINK) – High-speed servers with strong privacy features.
+- [ExpressVPN](YOUR_AFFILIATE_LINK) – Excellent performance and strong encryption.
+- [Surfshark VPN](YOUR_AFFILIATE_LINK) – Affordable and user-friendly.
 
-### Notes
+### Antivirus Software
+- [McAfee Antivirus](YOUR_AFFILIATE_LINK) – Comprehensive protection with web protection.
+- [Norton Antivirus](YOUR_AFFILIATE_LINK) – Reliable malware protection with identity monitoring.
+- [Bitdefender](YOUR_AFFILIATE_LINK) – Robust security with minimal system impact.
 
-- **Port 5000 Occupied**: If you encounter the error "Port 5000 is in use," it may be due to the AirPlay Receiver service being active on macOS. To resolve:
-  - Go to **System Preferences** → **General** → **AirDrop & Handoff**.
-  - Disable the **AirPlay Receiver** service.
-  
-  ![Disabling AirPlay](./screenshots/7.png)  
-  *Figure 7: Instructions to disable AirPlay Receiver.*
+### Internet Speed Optimization
+- [Google Nest WiFi](YOUR_AFFILIATE_LINK) – Reliable mesh Wi-Fi system.
+- [Netgear Orbi](YOUR_AFFILIATE_LINK) – High-speed and excellent coverage.
 
-## Troubleshooting
+### Remote Work Productivity
+- [Grammarly](YOUR_AFFILIATE_LINK) – Improve grammar and clarity in communication.
+- [LastPass](YOUR_AFFILIATE_LINK) – Manage passwords securely.
+- [Microsoft 365](YOUR_AFFILIATE_LINK) – Essential productivity tools for remote work.
 
-### Error: Port 5000 is in Use
+## Contributing
+Contributions are welcome! Please submit a pull request or file an issue if you’d like to help.
 
-If you see the error that Port 5000 is occupied by another program, use the following steps to find and stop the service using that port:
+## License
+- **Individual Use**: Licensed under the [MIT License](LICENSE.md).
+- **Business Use**: For corporate licensing, refer to the [Corporate License Agreement](LICENSE_CORPORATE.md).
 
-1. Find the process using port 5000:
-
-   ```bash
-   lsof -i :5000
-   ```
-
-2. Kill the process:
-
-   ```bash
-   kill -9 <PID>
-   ```
-
-3. Restart the Flask server with:
-
-   ```bash
-   flask --app app run --host=0.0.0.0 --port=5000
-   ```
-   
+## Notes
+- If you encounter the error "Port 5000 is in use," it may be because the AirPlay Receiver service is active on macOS. You can resolve this issue by turning off the AirPlay Receiver:
+  - Go to System Preferences → General → AirDrop & Handoff, and disable the AirPlay Receiver service.
