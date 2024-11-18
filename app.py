@@ -3,26 +3,22 @@ import platform
 from flask import Flask, render_template, jsonify, request
 import speedtest
 
+# Initialize the Flask app
 app = Flask(__name__)
 
 # Function to check firewall status
 def get_firewall_status():
     try:
-        if platform.system() == "Darwin":
-            # Check firewall status on macOS
+        if platform.system() == "Darwin":  # macOS
             result = subprocess.run(
                 ["/usr/libexec/ApplicationFirewall/socketfilterfw", "--getglobalstate"],
                 stdout=subprocess.PIPE,
                 stderr=subprocess.PIPE,
-                text=True
+                text=True,
             )
-            if "enabled" in result.stdout.lower():
-                return "Enabled"
-            else:
-                return "Disabled"
-        elif platform.system() == "Windows":
-            # Placeholder for Windows firewall check implementation
-            return "Active"  # Placeholder
+            return "Enabled" if "enabled" in result.stdout.lower() else "Disabled"
+        elif platform.system() == "Windows":  # Windows
+            return "Active"  # Placeholder for Windows implementation
         else:
             return "Unknown"
     except Exception as e:
@@ -39,10 +35,12 @@ def run_speed_test():
         speed_results["upload_speed"] = round(st.upload() / 1e6, 2)  # Mbps
         speed_results["ping"] = round(st.results.ping, 2)
     except Exception as e:
-        speed_results["download_speed"] = "Unavailable"
-        speed_results["upload_speed"] = "Unavailable"
-        speed_results["ping"] = "Unavailable"
         print(f"Speedtest Error: {e}")
+        speed_results = {
+            "download_speed": "Unavailable",
+            "upload_speed": "Unavailable",
+            "ping": "Unavailable",
+        }
     return speed_results
 
 # Function to check password strength
@@ -56,43 +54,39 @@ def check_password_strength(password):
     else:
         return "Very Strong"
 
-@app.route('/')
+# Route to render the main page
+@app.route("/")
 def index():
-    # Get firewall status
     firewall_status = get_firewall_status()
-
-    # Run speed test
     speed_results = run_speed_test()
-
-    # Placeholder data for now
-    operating_system = f"{platform.system()} {platform.version()}"
-    password_strength = "Ensure you are using a strong password"
-    software_updates = "Up-to-date" if platform.system() == "Darwin" else "Check manually"
-    antivirus_status = "No antivirus detected"
-    two_factor_authentication = "Check manual configuration for 2FA"
-
     return render_template(
-        'index.html',
-        operating_system=operating_system,
-        password_strength=password_strength,
+        "index.html",
+        operating_system=f"{platform.system()} {platform.version()}",
+        password_strength="Ensure you are using a strong password",
         firewall_status=firewall_status,
-        software_updates=software_updates,
-        antivirus_status=antivirus_status,
-        two_factor_authentication=two_factor_authentication,
+        software_updates="Up-to-date" if platform.system() == "Darwin" else "Check manually",
+        antivirus_status="No antivirus detected",
+        two_factor_authentication="Check manual configuration for 2FA",
         download_speed=speed_results["download_speed"],
         upload_speed=speed_results["upload_speed"],
-        ping=speed_results["ping"]
+        ping=speed_results["ping"],
     )
 
-@app.route('/check-password', methods=['POST'])
+# Route to check password strength
+@app.route("/check-password", methods=["POST"])
 def check_password():
-    password = request.json.get('password', '')
-    strength = check_password_strength(password)
-    return jsonify({"strength": strength})
+    try:
+        data = request.get_json()
+        password = data.get("password", "")
+        strength = check_password_strength(password)
+        return jsonify({"strength": strength})
+    except Exception as e:
+        return jsonify({"error": f"An error occurred: {e}"}), 500
 
-@app.route('/speedtest-results')
+# Route to return speed test results as JSON
+@app.route("/speedtest-results")
 def get_speedtest_results():
     return jsonify(run_speed_test())
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)
