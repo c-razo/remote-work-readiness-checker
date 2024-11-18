@@ -4,40 +4,96 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Remote Work Readiness Checker</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom Styles -->
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .container {
-            margin-top: 100px;
-        }
-        .btn-primary {
-            background-color: #4caf50;
-            border: none;
-        }
-        .btn-primary:hover {
-            background-color: #45a049;
-        }
-    </style>
+    <!-- Link to the stylesheet in the static folder -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Remote Work Readiness Checker</a>
-        </div>
-    </nav>
-    <div class="container text-center">
-        <h1 class="mb-4">Welcome to the Remote Work Readiness Checker</h1>
-        <p class="lead">Analyze your remote work setup and optimize for productivity.</p>
-        <form action="/run_checks" method="POST">
-            <button type="submit" class="btn btn-primary btn-lg">Run Checks</button>
-        </form>
+    <div class="container">
+        <header>
+            <h1>Remote Work Readiness Checker</h1>
+            <p>Analyze your remote work setup and optimize for productivity.</p>
+        </header>
+
+        <!-- Results Section -->
+        <section class="results">
+            <h2>Results</h2>
+            
+            <!-- System Security Check -->
+            <div class="security-check">
+                <h3>System Security Check</h3>
+                <ul>
+                    <li><strong>Operating System:</strong> {{ operating_system or "Unknown" }}</li>
+                    <li><strong>Password Strength:</strong> {{ password_strength or "N/A" }}</li>
+                    <li><strong>Firewall:</strong> {{ firewall_status or "N/A" }}</li>
+                    <li><strong>Software Updates:</strong> {{ software_updates or "N/A" }}</li>
+                    <li><strong>Antivirus:</strong> {{ antivirus_status or "N/A" }}</li>
+                    <li><strong>2FA:</strong> {{ two_factor_authentication or "N/A" }}</li>
+                </ul>
+            </div>
+
+            <!-- Internet Speed Test -->
+            <div class="speed-test">
+                <h3>Internet Speed Test</h3>
+                <ul>
+                    <li><strong>Download Speed:</strong> {{ download_speed or 0 }} Mbps</li>
+                    <li><strong>Upload Speed:</strong> {{ upload_speed or 0 }} Mbps</li>
+                    <li><strong>Ping:</strong> {{ ping or 0 }} ms</li>
+                </ul>
+                <!-- Display Speed Test Chart -->
+                <div class="chart-container">
+                    <canvas id="speedTestChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Button to Re-run Checks -->
+            <button onclick="location.href='/'" aria-label="Recheck your system readiness">Run Again</button>
+        </section>
     </div>
-    <!-- Bootstrap JS -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Display speed test results as a chart
+        var ctx = document.getElementById('speedTestChart').getContext('2d');
+        var speedTestChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Download Speed', 'Upload Speed', 'Ping'],
+                datasets: [{
+                    label: 'Internet Speed',
+                    data: [
+                        {{ download_speed or 0 }},
+                        {{ upload_speed or 0 }},
+                        {{ ping or 0 }}
+                    ],
+                    backgroundColor: ['#4CAF50', '#FF9800', '#2196F3'],
+                    borderColor: ['#388E3C', '#F57C00', '#1976D2'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.dataset.label + ': ' + context.raw + 
+                                       (context.dataIndex < 2 ? ' Mbps' : ' ms');
+                            }
+                        }
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Speed'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
-
