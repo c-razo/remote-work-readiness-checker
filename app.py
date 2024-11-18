@@ -84,4 +84,27 @@ def index():
         ping=speed_results["ping"]
     )
 
-@app.r
+@app.route('/check-password', methods=['POST'])
+def check_password():
+    try:
+        # Get the password from the JSON body
+        data = request.get_json()
+        password = data.get('password', '')
+
+        # Validate the password
+        strength = check_password_strength(password)
+        return jsonify({"strength": strength}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 400
+
+# Debug route to verify registered routes
+@app.route('/debug-routes', methods=['GET'])
+def debug_routes():
+    return jsonify({rule.rule: rule.endpoint for rule in app.url_map.iter_rules()})
+
+@app.route('/speedtest-results')
+def get_speedtest_results():
+    return jsonify(run_speed_test())
+
+if __name__ == '__main__':
+    app.run(debug=True)
