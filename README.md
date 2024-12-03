@@ -51,6 +51,7 @@ To run the tool:
 - **Internet Speed**: You'll see the measured download/upload speeds and latency, with recommendations if the speeds are below a recommended threshold.
 - **Productivity Tools**: If configured, it will list the status of commonly used tools (e.g., VPNs, email clients, etc.) and provide suggestions for improvements.
 
+<!-- 
 ## Screenshots
 
 ### 1. Welcome Page
@@ -123,6 +124,8 @@ For inquiries and licensing fees, please contact [christopher.razo@icloud.com].
 - [Grammarly](https://www.grammarly.com/) – Improve grammar and clarity in communication.
 - [LastPass](https://www.lastpass.com/) – Manage passwords securely.
 - [Microsoft 365](https://www.microsoft.com/en-us/microsoft-365) – Essential productivity tools for remote work.
+-->
+
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details.
